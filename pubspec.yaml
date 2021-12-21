@@ -14,8 +14,7 @@ dependencies:
   cupertino_icons: ^1.0.0
 
   # barcode plugin
-  ai_barcode:
-    path: ../
+  ai_barcode: ^3.0.1
 
   # route package
   airoute: ^2.2.0
