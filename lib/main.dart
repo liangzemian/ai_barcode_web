@@ -9,6 +9,7 @@ import 'creator_page.dart';
 import 'custom_size_scanner_page.dart';
 import 'select_scanner_style_page.dart';
 
+
 void main() => runApp(
       Airoute.createMaterialApp(
         home: App(),
