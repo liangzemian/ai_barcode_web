@@ -1,35 +1,29 @@
-name: Flutter Web
+name: ai_barcode web deploy
+
+# push 提交中修改`pubspec.yaml`触发此workflow。
+# 为了避免每次部署，这里使用一个不存在的文件名。
 on:
   push:
-    branches:
-      - master
+    paths:
+      - 'pubspec1.yaml'
+
 jobs:
-  build:
-    name: Build Web
-    env:
-      my_secret: ${{secrets.commit_secret}}
-    runs-on: ubuntu-latest
+  web_build_and_deploy:
+    runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2.3.1
       - uses: subosito/flutter-action@v1
         with:
-          channel: 'dev'
-#       - run: cd example
-      - run: flutter config --enable-web
-      - run: flutter pub get
-      - run: flutter build web --release
-      - run: |
-          cd build/web
-          git init
-          # type configurations: your user.email and user.name followed lines
-          # git config --global user.email your_email
-          # git config --global user.name your_name
-          git config --global user.email liangzemian@gmail.com
-          git config --global user.name liangzemian
-          git status
-          # change this remote url for examle your remote url is https://github.com/onatcipli/flutter_web.git then the following:
-          git remote add origin https://${{secrets.commit_secret}}@github.com/liangzemian/ai_barcode_web.git
-          git checkout -b gh-pages
-          git add --all
-          git commit -m "update"
-          git push origin gh-pages -f
+          flutter-version: '2.8.0'
+          channel: 'stable'
+      - name: "Web Build 🔧"
+        run: |
+          flutter pub get
+          flutter build web
+      - name: "Web Deploy 🚀"
+          # https://github.com/JamesIves/github-pages-deploy-action
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          token: '${{ secrets.commit_secret }}'
+          branch: gh-pages
+          folder: build/web
