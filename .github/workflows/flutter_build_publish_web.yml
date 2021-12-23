@@ -17,7 +17,7 @@ jobs:
       - name: "Web Build 🔧"
         run: |
           flutter pub get
-          flutter build web
+          flutter run -d chrome --web-renderer html
       - name: "Web Deploy 🚀"
           # https://github.com/JamesIves/github-pages-deploy-action
         uses: JamesIves/github-pages-deploy-action@4.0.0
